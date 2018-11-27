@@ -1,0 +1,94 @@
+* Notes
+** Backend/API (C++)
+auto query = yt.Search("foo");
+query = yt.Search("foo").Order(yt::DATE_ORDER).MaxResults(10);
+query.Perform();
+
+This is how .NET does that.
+
+yt.Search(), yt.Videos(), yt.Thumbnails() and other base operations each would return their dedicated objects of class derived from BaseOperation (which is inheriting OperationInterface) that would define functions to set parameters of the query.
+
+Perform() function is defined in BaseOperation and it collects all the set perameters, creates a query and sends it.
+
+Each concrete Operation class has to define set of functions that modify parameters map (parameters_).
+For Operations to be savable and modifiable they should store query parameters in variables and generate the query on Perform().
+They will be stored in a map. The declaration of this map is in the BaseOperation class.
+
+Addition of an API key to the parameter list could be done in BaseOperation. Or it can be done in CURLcontext's QuerySend(). The second way would be more error-prone but the api key would be better obfuscated.
+
+CURLcontext::SendQuery() should take Query object as an argument, not an std::string because you could pass it whatever and get not covered errors.
+
+For parsing json rapidjson will be used because of its speed. It's licensed under MIT license.
+Documentation for it: [[https://miloyip.gitbooks.io/rapidjson/content/en/][here]].
+
+** CLI (C++)
+yt search "foo"
+yt search --order date --max-results 10 "foo"
+
+Some operations require authentication so we could have a daemon running a session for that.
+
+** TUI (Guile)
+There are [[https://www.gnu.org/software/guile-ncurses/][ncurses bindings for guile]], so the whole TUI (text-based user interface) could be written in it.
+
+(yt-search "foo")
+(yt-search "foo" :order 'date :max-results 10)
+
+* TO DO
+** TODO Create git repository
+** TODO Create Query class
+Or URI.
+
+For use with CURLcontext::SendQuery() to avoid errors.
+** TODO Operations
+*** TODO SearchOperation [0/2]
+[[https://developers.google.com/youtube/v3/docs/search/list][API Reference]]
+
+NOTE: some of the functions would have exactly the same code with different variable names. They should be using a common function.
+(Example: ChannelId just adds the given variable value to a query)
+**** TODO Parameters [12%]
+***** DONE part
+CLOSED: [2018-11-19 pon 22:32]
+***** TODO forContentOwner
+***** TODO forDeveloper
+***** TODO forMine
+***** TODO relatedToVideoId
+***** DONE channelId
+CLOSED: [2018-11-19 pon 22:32]
+***** TODO channelType
+***** TODO eventType
+***** TODO location
+***** TODO locationRadius
+***** DONE maxResults
+CLOSED: [2018-11-19 pon 22:32]
+***** TODO onBehalfOfContentOwner
+***** TODO order
+***** TODO pageToken
+***** TODO publishedAfter
+***** TODO publishedBefore
+***** DONE q
+CLOSED: [2018-11-19 pon 22:31]
+***** TODO regionCode
+***** TODO relevanceLanguage
+***** TODO safeSearch
+***** TODO topicId
+***** TODO type
+***** TODO videoCaption
+***** TODO videoCategoryId
+***** TODO videoDefinition
+***** TODO videoDimension
+***** TODO videoDuration
+***** TODO videoEmbeddable
+***** TODO videoLicense
+***** TODO videoSyndicated
+***** TODO videoType
+
+**** TODO Response [0%]
+***** TODO kind
+***** TODO etag
+***** TODO nextPageToken
+***** TODO prevPageToken
+***** TODO regionCode
+***** TODO pageInfo
+***** TODO pageInfo.totalResults
+***** TODO pageInfo.resultsPerPage
+***** TODO items[]
