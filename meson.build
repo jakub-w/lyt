@@ -3,6 +3,7 @@ project('my-youtube-client', 'cpp',
 
 # DEPENDENCIES
 curl = dependency('libcurl')
+rapidjson = dependency('RapidJSON')
 
 
 # EXTRA COMPILE OPTIONS
@@ -28,5 +29,5 @@ incl = include_directories('.')
 # BINARIES
 executable('yt', sources : sources,
 	   include_directories : incl,
-	   dependencies : curl,
+	   dependencies : [curl, rapidjson],
 	  )

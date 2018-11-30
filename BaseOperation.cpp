@@ -1,5 +1,6 @@
 #include "BaseOperation.h"
 #include "Config.h"
+#include "CURLcontext.h"
 
 #include <iostream>
 
@@ -12,6 +13,6 @@ Response BaseOperation::Perform() {
     query += parameter.first + '=' + parameter.second + '&';
   }
 
-  return Response{query, ""};
+  return CURLcontext::QuerySend(query);
 }
 }

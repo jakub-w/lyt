@@ -19,7 +19,6 @@ size_t CURLcontext::curl_write_callback(char *buffer, size_t, size_t nmemb,
     return 0;
   }
 
-  std::cout << nmemb << '\n';
   return nmemb;
 }
 
@@ -59,9 +58,7 @@ Response CURLcontext::QuerySend(std::string_view query) {
                              __PRETTY_FUNCTION__ + "': " + curl_error_buffer);
   }
 
-  Response response;
-  response.uri = query;
-  response.text = curl_output_stream.str();
+  Response response{query, curl_output_stream.str()};
 
   curl_output_stream.str(""); // reset stream
 

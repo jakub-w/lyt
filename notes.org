@@ -15,11 +15,15 @@ For Operations to be savable and modifiable they should store query parameters i
 They will be stored in a map. The declaration of this map is in the BaseOperation class.
 
 Addition of an API key to the parameter list could be done in BaseOperation. Or it can be done in CURLcontext's QuerySend(). The second way would be more error-prone but the api key would be better obfuscated.
+  *For now it stays in BaseOperation.*
 
-CURLcontext::SendQuery() should take Query object as an argument, not an std::string because you could pass it whatever and get not covered errors.
+CURLcontext::SendQuery() should be named "Get" or something like that because it basically performs REST GET operation.
 
 For parsing json rapidjson will be used because of its speed. It's licensed under MIT license.
 Documentation for it: [[https://miloyip.gitbooks.io/rapidjson/content/en/][here]].
+
+For creating Response we can use a factory that spits out objects corresponding to ~kind~ parameter in json output.
+Or we could just use rapidjson output and not worry about custom classes because we don't need to implement all functionality of this API.
 
 ** CLI (C++)
 yt search "foo"
@@ -34,11 +38,25 @@ There are [[https://www.gnu.org/software/guile-ncurses/][ncurses bindings for gu
 (yt-search "foo" :order 'date :max-results 10)
 
 * TO DO
-** TODO Create git repository
-** TODO Create Query class
-Or URI.
+** IN-PROGRESS Working, basic search for YouTube [1/3]
+*** DONE Video class
+CLOSED: [2018-11-29 czw 21:15]
+*** TODO VideosOperation
+[[*VideosOperation][VideosOperation]]
+**** Parameters [0/2]
+***** TODO [[*part][part]]
+At least ~snippet~ parameter.
+***** TODO [[*id][id]]
+*** IN-PROGRESS JSON parsing
+**** DONE Modify Response class to parse server response to rapidjson::Document
+CLOSED: [2018-11-30 pią 16:10]
+**** IN-PROGRESS Create a way to extract videos as Video objects from Response
+Response::GetVideos() or something like that
+**** TODO Get ids from received video list and create request for those videos to get titles and descriptions
+SearchOperation returns a list of items that can be of different type like channel, playlist or video. We could show only results that have id->videoId parameter (channel would have only channelId).
+Or we could use ~type=video~ parameter by default when invoking SearchOperation.
 
-For use with CURLcontext::SendQuery() to avoid errors.
+If video description is long, SearchOperation will return only part of it, so we could call VideosOperation if ~description~ parameter ends with "..." or make it an option to show entire description.
 ** TODO Operations
 *** TODO SearchOperation [0/2]
 [[https://developers.google.com/youtube/v3/docs/search/list][API Reference]]
@@ -88,6 +106,42 @@ CLOSED: [2018-11-19 pon 22:31]
 ***** TODO nextPageToken
 ***** TODO prevPageToken
 ***** TODO regionCode
+***** TODO pageInfo
+***** TODO pageInfo.totalResults
+***** TODO pageInfo.resultsPerPage
+***** TODO items[]
+*** TODO VideosOperation
+**** TODO Parameters [0%]
+***** TODO part
+****** TODO contentDetails
+****** TODO fileDetails
+****** TODO id
+****** TODO liveStreamingDetails
+****** TODO localizations
+****** TODO player
+****** TODO processingDetails
+****** TODO recordingDetails
+****** TODO snippet
+****** TODO statistics
+****** TODO status
+****** TODO suggestions
+****** TODO topicDetails
+***** TODO chart
+***** TODO id
+***** TODO myRating
+***** TODO hl
+***** TODO maxHeight
+***** TODO maxResults
+***** TODO maxWidth
+***** TODO onBehalfOfContentOwner
+***** TODO pageToken
+***** TODO regionCode
+***** TODO videoCategoryId
+**** TODO Response [%]
+***** TODO kind
+***** TODO etag
+***** TODO nextPageToken
+***** TODO prevPageToken
 ***** TODO pageInfo
 ***** TODO pageInfo.totalResults
 ***** TODO pageInfo.resultsPerPage

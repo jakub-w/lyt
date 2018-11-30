@@ -1,16 +1,40 @@
 #include <iostream>
+#include <algorithm>
 
 #include "SearchOperation.h"
 #include "CURLcontext.h"
+#include "Video.h"
 
-using namespace std::literals::string_literals;
 
 int main(/*int argc, char** argv*/) {
-  std::string query = yt::Search("foo"s).MaxResults(2).Perform().uri;
-  std::cout << query << '\n';
+  yt::Response response =
+      yt::Search("northernlion isaac").MaxResults(2).Perform();
+  // std::cout << response.Text() << '\n';
 
-  yt::Response response = yt::CURLcontext::QuerySend(query);
-  std::cout << response.text << '\n';
+  for (auto it = response.Json().MemberBegin();
+       it < response.Json().MemberEnd(); ++it) {
+    std::cout << it->name.GetString() << ": "
+              << (it->value.IsString() ? it->value.GetString() : "[]")
+              << '\n';
+  }
+  std::cout << "\n\n";
+
+  auto items = response.Json().FindMember("items");
+  if (response.Json().MemberEnd() == items) return 1;
+
+  for (auto items_it = items->value.Begin();
+       items_it < items->value.End();
+       ++items_it) {
+    for (auto it = items_it->MemberBegin();
+         it != items_it->MemberEnd();
+         ++it) {
+      std::cout << it->name.GetString() << ": "
+                << (it->value.IsString() ? it->value.GetString() : "[]")
+                << '\n';
+    }
+    std::cout << '\n';
+  }
+  // std::cout << response.Json() << '\n';
 
   return 0;
 }
