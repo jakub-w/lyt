@@ -8,6 +8,7 @@
 #include <curl/curl.h>
 #include <curl/easy.h>
 
+#include "Query.h"
 #include "Response.h"
 
 namespace yt {
@@ -26,7 +27,7 @@ public:
   CURLcontext() = delete;
 
   static void Initialize();
-  static Response QuerySend(std::string_view query);
+  static Response Get(const Query& query);
 };
 }
 

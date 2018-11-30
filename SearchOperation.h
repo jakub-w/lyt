@@ -10,7 +10,7 @@
 namespace yt {
 class SearchOperation : public BaseOperation {
 public:
-  inline SearchOperation(const std::string& query) {
+  inline SearchOperation(std::string_view query) {
     parameters_["part"] = "snippet";
     parameters_["q"] = query;
   };
@@ -18,10 +18,10 @@ public:
   SearchOperation &MaxResults(unsigned int maxResults);
   SearchOperation &ChannelId(std::string channelId);
 
-  inline virtual std::string GetActionName() const { return "search"; }
+  inline std::string GetActionName() const final { return "search"; }
 };
 
-inline SearchOperation Search(const std::string& query) {
+inline SearchOperation Search(std::string_view query) {
   return SearchOperation(query);
 }
 } // namespace yt

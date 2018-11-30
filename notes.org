@@ -47,12 +47,16 @@ CLOSED: [2018-11-29 czw 21:15]
 ***** TODO [[*part][part]]
 At least ~snippet~ parameter.
 ***** TODO [[*id][id]]
-*** IN-PROGRESS JSON parsing
+*** IN-PROGRESS JSON parsing [3/4]
 **** DONE Modify Response class to parse server response to rapidjson::Document
 CLOSED: [2018-11-30 pią 16:10]
 **** DONE Create a way to extract videos as Video objects from Response
 CLOSED: [2018-11-30 pią 23:32]
 Response::GetVideos() or something like that
+**** DONE [BUG] Escape parameters before sending a query
+CLOSED: [2018-12-01 sob 00:08]
+libcurl doesn't escape spaces in an url, it can be done by using curl_easy_escape(), but it requires CURL handle
+[[file:BaseOperation.cpp:://%20FIXME:%20every%20parameter%20value%20should%20be%20escaped][Here]]
 **** TODO Get ids from received video list and create request for those videos to get titles and descriptions
 SearchOperation returns a list of items that can be of different type like channel, playlist or video. We could show only results that have id->videoId parameter (channel would have only channelId).
 Or we could use ~type=video~ parameter by default when invoking SearchOperation.

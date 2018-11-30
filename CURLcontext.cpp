@@ -47,20 +47,36 @@ void CURLcontext::Initialize() {
   is_initialized_ = true;
 }
 
-Response CURLcontext::QuerySend(std::string_view query) {
+Response CURLcontext::Get(const Query &query) {
   if (false == is_initialized_)
     Initialize();
 
-  curl_easy_setopt(curl_.get(), CURLOPT_URL, query.data());
+  std::string uri = query.scheme + "://" + query.authority +
+      query.absolute_path + '?';
+
+  for (auto &parameter : query.parameters) {
+    uri += parameter.first + '='; // parameter name
+
+    // escape parameter value
+    char* escaped_value = curl_easy_escape(curl_.get(),
+                                           parameter.second.c_str(),
+                                           parameter.second.length());
+    uri += escaped_value;
+    curl_free(escaped_value);
+
+    uri += '&';
+  }
+
+  curl_easy_setopt(curl_.get(), CURLOPT_URL, uri.c_str());
 
   if (CURLE_OK != curl_easy_perform(curl_.get())) {
     throw std::runtime_error(std::string("In function '") +
                              __PRETTY_FUNCTION__ + "': " + curl_error_buffer);
   }
 
-  Response response{query, curl_output_stream.str()};
+  Response response{uri, curl_output_stream.str()};
 
-  curl_output_stream.str(""); // reset stream
+  curl_output_stream.str("");
 
   return response;
 }

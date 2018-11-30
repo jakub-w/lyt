@@ -6,7 +6,9 @@
 #include "Response.h"
 
 namespace yt {
-const std::string API_URI = "https://www.googleapis.com/youtube/v3/";
+const std::string API_SCHEME = "https";
+const std::string API_AUTHORITY = "www.googleapis.com";
+const std::string API_PATH = "/youtube/v3/";
 
 class OperationInterface {
  public:
