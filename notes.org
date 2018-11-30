@@ -15,7 +15,7 @@ For Operations to be savable and modifiable they should store query parameters i
 They will be stored in a map. The declaration of this map is in the BaseOperation class.
 
 Addition of an API key to the parameter list could be done in BaseOperation. Or it can be done in CURLcontext's QuerySend(). The second way would be more error-prone but the api key would be better obfuscated.
-  *For now it stays in BaseOperation.*
+QuerySend should take Query object argument because all of the parameters should be escaped before performing a libcurl request and to do that, CURL context is needed.
 
 CURLcontext::SendQuery() should be named "Get" or something like that because it basically performs REST GET operation.
 
@@ -50,7 +50,8 @@ At least ~snippet~ parameter.
 *** IN-PROGRESS JSON parsing
 **** DONE Modify Response class to parse server response to rapidjson::Document
 CLOSED: [2018-11-30 pią 16:10]
-**** IN-PROGRESS Create a way to extract videos as Video objects from Response
+**** DONE Create a way to extract videos as Video objects from Response
+CLOSED: [2018-11-30 pią 23:32]
 Response::GetVideos() or something like that
 **** TODO Get ids from received video list and create request for those videos to get titles and descriptions
 SearchOperation returns a list of items that can be of different type like channel, playlist or video. We could show only results that have id->videoId parameter (channel would have only channelId).

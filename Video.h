@@ -33,13 +33,27 @@ class Video {
 
  public:
   // CONSTRUCTORS
-   Video(std::string id, std::string published_at, std::string channel_id,
-         std::string title, std::string description_shortened,
+   Video(std::string id,
+         std::string published_at,
+         std::string channel_id,
+         std::string title,
+         std::string description_shortened,
          std::unordered_map<std::string, const Thumbnail> thumbnails,
          std::string channel_title) :
        id_(id), published_at_(published_at), channel_id_(channel_id),
        title_(title), description_shortened_(description_shortened),
        thumbnails_(thumbnails), channel_title_(channel_title) {}
+
+  Video(std::string_view id,
+        std::string_view published_at,
+        std::string_view channel_id,
+        std::string_view title,
+        std::string_view description_shortened,
+        std::unordered_map<std::string, const Thumbnail>&& thumbnails,
+        std::string_view channel_title) :
+      id_(id), published_at_(published_at), channel_id_(channel_id),
+      title_(title), description_shortened_(description_shortened),
+      thumbnails_(std::move(thumbnails)), channel_title_(channel_title) {}
 
    // ACCESSORS
    inline const std::string &Id() const { return id_; }
