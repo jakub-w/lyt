@@ -13,6 +13,11 @@
 
 namespace yt {
 class CURLcontext {
+  struct CURLresponse {
+    std::string uri;
+    std::string content;
+  };
+
   // PRIVATE VARIABLES
   static bool is_initialized_;
   static std::unique_ptr<CURL, decltype(&curl_easy_cleanup)> curl_;
@@ -23,11 +28,22 @@ class CURLcontext {
   static size_t curl_write_callback(char* buffer, size_t,
                                     size_t nmemb, void*);
 
+  static CURLresponse Get_(const Query& query);
+
 public:
   CURLcontext() = delete;
 
   static void Initialize();
-  static Response Get(const Query& query);
+  template<typename T>
+  static std::unique_ptr<T> Get(const Query& query) {
+    static_assert(std::is_base_of<Response, T>::value,
+		  "In CURLcontext::Get<T>(): T must be derived "
+		  "from Response.");
+
+    CURLresponse response = Get_(query);
+    return std::make_unique<T>(std::move(response.uri),
+			       std::move(response.content));
+  }
 };
 }
 

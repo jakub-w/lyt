@@ -21,8 +21,8 @@ endif
 sources = ['main.cpp',
 	   'Config.cpp',
 	   'CURLcontext.cpp',
-	   'Response.cpp',
-	   'BaseOperation.cpp',
+	   'SearchResponse.cpp',
+	   'Operation.cpp',
 	   'SearchOperation.cpp']
 
 incl = include_directories('.')

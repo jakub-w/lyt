@@ -2,8 +2,9 @@
 #include <algorithm>
 
 #include "SearchOperation.h"
-#include "CURLcontext.h"
+// #include "CURLcontext.h"
 #include "Video.h"
+#include "SearchResponse.h"
 
 
 int main(int argc, char** argv) {
@@ -12,11 +13,9 @@ int main(int argc, char** argv) {
     return 1;
   }
 
-  yt::Response response =
-      yt::Search(argv[1]).MaxResults(10).Perform();
-  std::cout << response.Uri() << '\n';
+  std::unique_ptr<yt::SearchResponse> sr = yt::Search(argv[1]).Perform();
 
-  for (auto &video : response.Videos()) {
+  for (auto &video : sr->Videos()) {
     std::cout << video.Title() << '\n';
   }
 
