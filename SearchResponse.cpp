@@ -29,13 +29,17 @@ void SearchResponse::ExtractVideos() {
                           thumbnail->value["height"].GetUint()}});
     }
 
-    videos_.emplace_back(
-        (std::string_view)(*video)["id"]["videoId"].GetString(),
-        (*video)["snippet"]["publishedAt"].GetString(),
-        (*video)["snippet"]["channelId"].GetString(),
-        (*video)["snippet"]["title"].GetString(),
-        (*video)["snippet"]["description"].GetString(), std::move(thumbnails),
-        (*video)["snippet"]["channelTitle"].GetString());
+    Video vid;
+    vid.SetId((*video)["id"]["videoId"].GetString());
+    vid.SetPublishedAt((*video)["snippet"]["publishedAt"].GetString());
+    vid.SetChannelId((*video)["snippet"]["channelId"].GetString());
+    vid.SetTitle((*video)["snippet"]["title"].GetString());
+    vid.SetDescriptionShortened(
+        (*video)["snippet"]["description"].GetString());
+    vid.SetThumbnails(std::move(thumbnails));
+    vid.SetChannelTitle((*video)["snippet"]["channelTitle"].GetString());
+
+    videos_.push_back(std::move(vid));
   }
 }
 } // namespace yt

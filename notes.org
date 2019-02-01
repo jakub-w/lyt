@@ -70,7 +70,7 @@ CLOSED: [2019-01-29 wto 16:01]
 Response class should contain some data structure that is inherent to only the certain type of response. This would mean that creating child classes of Response would be not necessary. Just create this Data interface and SearchData and so could be an instance of it.
 *** TODO VideosOperation
 [[*VideosOperation][VideosOperation]]
-**** Parameters [0/2]
+**** Parameters [0/3]
 ***** TODO [[*part][part]]
 At least ~snippet~ parameter.
 ***** TODO [[*id][id]]
@@ -90,10 +90,16 @@ Or we could use ~type=video~ parameter by default when invoking SearchOperation.
 
 If video description is long, SearchOperation will return only part of it, so we could call VideosOperation if ~description~ parameter ends with "..." or make it an option to show the entire description.
 Thumbnail list is also longer in VideosOperation.
-** TODO Refactor Video class
+** DONE Refactor Video class [2/2]
+CLOSED: [2019-02-01 pią 21:11]
+*** DONE Setters for Video class
+CLOSED: [2019-02-01 pią 14:58]
 Maybe it would be better to create setters for Video class' data members so it would be possibile to add additional information about a video. That would eliminate that awful constructor with million arguments.
+/Maybe create only rvalue setters?/
+*** DONE Convert the date in publishedAt to be human-readable
+CLOSED: [2019-02-01 pią 21:11]
 ** TODO Operations
-*** TODO SearchOperation [0/2]
+*** TODO SearchOperation [0/3]
 [[https://developers.google.com/youtube/v3/docs/search/list][API Reference]]
 
 NOTE: some of the functions would have exactly the same code with different variable names. They should be using a common function.
@@ -124,7 +130,15 @@ CLOSED: [2018-11-19 pon 22:31]
 ***** TODO relevanceLanguage
 ***** TODO safeSearch
 ***** TODO topicId
-***** TODO type
+***** IN-PROGRESS type [1/3]
+****** DONE Basic functionality
+CLOSED: [2019-02-01 pią 12:50]
+By default type=video
+The default type is set in a constructor.
+
+For now only one or all types can be set at the same time.
+****** TODO Allow bitmask construction
+e.g. ~Type(VIDEO | PLAYLIST)~
 ***** TODO videoCaption
 ***** TODO videoCategoryId
 ***** TODO videoDefinition
@@ -136,6 +150,9 @@ CLOSED: [2018-11-19 pon 22:31]
 ***** TODO videoType
 
 **** TODO Response [0%]
+***** IN-PROGRESS Create Playlists() and Channels() methods.
+****** TODO Create Playlist class
+****** TODO Create Channel class
 ***** TODO kind
 ***** TODO etag
 ***** TODO nextPageToken
@@ -181,3 +198,5 @@ CLOSED: [2018-11-19 pon 22:31]
 ***** TODO pageInfo.totalResults
 ***** TODO pageInfo.resultsPerPage
 ***** TODO items[]
+** TODO Documentation
+For Backend/API look at the [[*Backend/API (C++)][Backend/API (C++)]] notes and the commit message from [[elisp:(magit-show-commit "5e5851625d78abc58154c551ccc75c9c470e1f20")][this commit]].
