@@ -16,6 +16,17 @@ namespace yt {
 
     return *this;
   }
+  SearchOperation& SearchOperation::Type(SearchType type) {
+    parameters_["type"] = "";
+    if ((type & SearchType::VIDEO) != 0)
+      parameters_["type"] += "video,";
+    if ((type & SearchType::PLAYLIST) != 0)
+      parameters_["type"] += "playlist,";
+    if ((type & SearchType::CHANNEL) != 0)
+      parameters_["type"] += "channel,";
+
+    return *this;
+  }
   SearchOperation& SearchOperation::ChannelId(std::string channelId) {
     parameters_["channelId"] = channelId;
 
