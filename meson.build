@@ -30,5 +30,4 @@ incl = include_directories('.')
 # BINARIES
 executable('yt', sources : sources,
 	   include_directories : incl,
-	   dependencies : [curl, rapidjson],
-	  )
+	   dependencies : [curl, rapidjson])
