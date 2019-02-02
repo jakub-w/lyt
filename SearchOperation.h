@@ -27,9 +27,50 @@ public:
     Type(SearchType::VIDEO);
   };
 
-  SearchOperation& ChannelId(std::string channelId);
+  SearchOperation& ChannelId(std::string_view channelId);
   SearchOperation& MaxResults(unsigned int maxResults);
   SearchOperation& Type(SearchType type);
+  // Type must be set to VIDEO
+  SearchOperation& ForContentOwner(bool forContentOwner);
+  SearchOperation& ForDeveloper(bool forDeveloper);
+  // Type must be set to VIDEO
+  SearchOperation& ForMine(bool forMine);
+  // Type must be set to VIDEO
+  SearchOperation& RelatedToVideoId(std::string_view relatedToVideoId);
+  SearchOperation& EventType(std::string_view eventType);
+  SearchOperation& Location(std::string_view location);
+  SearchOperation& LocationRadius(std::string_view locationRadius);
+  SearchOperation& OnBehalfOfContentOwner(
+      std::string_view onBehalfOfContentOwner);
+  SearchOperation& PageToken(std::string_view pageToken);
+  SearchOperation& RegionCode(std::string_view regionCode);
+  SearchOperation& RelevanceLanguage(std::string_view relevanceLanguage);
+  SearchOperation& TopicId(std::string_view topicId);
+  SearchOperation& VideoCategoryId(std::string_view videoCategoryId);
+  // publishedAfter - time in UTC
+  SearchOperation& PublishedAfter(time_t publishedAfter);
+  // publishedAfter - RFC 3339 formatted date-time value
+  //                  (1970-01-01T00:00:00Z)
+  SearchOperation& PublishedAfter(std::string_view publishedAfter);
+  // publishedBefore - time in UTC
+  SearchOperation& PublishedBefore(time_t publishedBefore);
+  // publishedBefore - RFC 3339 formatted date-time value
+  //                   (1970-01-01T00:00:00Z)
+  SearchOperation& PublishedBefore(std::string_view publishedBefore);
+
+  // TODO:
+  // channelType enum
+  // order enum
+  // videoCaption enum
+  // safeSearch enum
+  // videoDefinition enum
+  // videoDimension enum
+  // videoDuration enum
+  // videoEmbeddable enum
+  // videoLicense enum
+  // videoSyndicated enum
+  // videoType enum
+
 
   inline std::string GetActionName() const final { return "search"; }
 

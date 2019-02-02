@@ -1,6 +1,7 @@
 #ifndef YT_OPERATION_H
 #define YT_OPERATION_H
 
+#include <regex>
 #include <unordered_map>
 
 namespace yt {

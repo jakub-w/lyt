@@ -26,10 +26,15 @@ int main(int argc, char** argv) {
     return 1;
   }
 
+  // std::tm tm = {};
+  // tm.tm_year = 119; // 2019
+  // tm.tm_mon = 1;    // february
+  // tm.tm_mday = 1;
+  // std::time_t time = std::mktime(&tm);
   std::unique_ptr<yt::SearchResponse> sr =
-    yt::Search(argv[1]).MaxResults(5).Perform();
+    yt::Search(argv[1]).MaxResults(5).PublishedAfter("2019-02-01T00:00:00Z").Perform();
 
-  // std::cout << sr->Uri() << '\n';
+  std::cout << sr->Uri() << '\n';
 
   for (auto &video : sr->Videos()) {
     print_video_info(video);
