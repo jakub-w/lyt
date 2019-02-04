@@ -66,6 +66,12 @@ namespace yt {
     inline void SetTitle(const std::string& title) { title_ = title; }
 
     inline const std::string& DescriptionShortened() const {
+      if (description_shortened_.empty()) {
+	// TODO: create a shortened description from description_
+	//       it cuts all newlines and limits to 25 words (probably)
+	//       or to 156 characters (or so) if it's too long
+      }
+
       return description_shortened_;
     }
     inline void SetDescriptionShortened(
@@ -95,8 +101,8 @@ namespace yt {
     }
 
     inline const std::string& Description() const {
-      throw std::logic_error(std::string(__FUNCTION__) +
-			     ": Not yet implemented.");
+      // throw std::logic_error(std::string(__FUNCTION__) +
+			     // ": Not yet implemented.");
       return description_;
     }
     inline void SetDescription(const std::string& description) {
@@ -104,8 +110,8 @@ namespace yt {
     }
 
     inline const std::vector<std::string>& Tags() const {
-      throw std::logic_error(std::string(__FUNCTION__) +
-			     ": Not yet implemented.");
+      // throw std::logic_error(std::string(__FUNCTION__) +
+			     // ": Not yet implemented.");
       return tags_;
     }
     inline void SetTags(std::vector<std::string>& tags) {
@@ -116,8 +122,8 @@ namespace yt {
     }
 
     inline const std::string& CategoryId() const {
-      throw std::logic_error(std::string(__FUNCTION__) +
-			     ": Not yet implemented.");
+      // throw std::logic_error(std::string(__FUNCTION__) +
+			     // ": Not yet implemented.");
       return category_id_;
     }
     inline void SetCategoryId(const std::string& category_id) {

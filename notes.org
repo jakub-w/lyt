@@ -36,6 +36,10 @@ Parameters for the Operation can be set in any order and there is no check if th
 *Errors are not supported yet, so the assertions in Reponse methods will not be met.* This is TODO.
 
 *speculation*
+SearchResponse could use VideosResponse for extracting videos from the json document. The contents of snippet in both is almost the same.
+Or use strategy pattern? That way it would be less confusing.
+It would be better to create a static function inside of Response class. That way it's encapsulated with the stuff that will use it.
+For now, the function was rewritten in VideosResponse
 ** CLI (C++)
 yt search "foo"
 yt search --order date --max-results 10 "foo"
@@ -61,7 +65,7 @@ Maybe it would be better to create setters for Video class' data members so it w
 /Maybe create only rvalue setters?/
 *** DONE Convert the date in publishedAt to be human-readable
 CLOSED: [2019-02-01 pią 21:11]
-** IN-PROGRESS Working, basic search for YouTube [2/4]
+** IN-PROGRESS Working, basic search for YouTube [3/4]
 *** DONE Video class
 CLOSED: [2018-11-29 czw 21:15]
 *** DONE Refactor Response [4/4]
@@ -76,13 +80,16 @@ Maybe make it an abstract class.
 **** DONE Find a way to return certain Response objects with CURLcontext (Create Data class with SearchData inheriting from it)
 CLOSED: [2019-01-29 wto 16:01]
 Response class should contain some data structure that is inherent to only the certain type of response. This would mean that creating child classes of Response would be not necessary. Just create this Data interface and SearchData and so could be an instance of it.
-*** TODO VideosOperation
+*** DONE VideosOperation
+CLOSED: [2019-02-04 pon 14:08]
 [[*VideosOperation][VideosOperation]]
-**** Parameters [0/3]
-***** TODO [[*part][part]]
+**** Parameters [2/2]
+***** DONE [[*part][part]]
+CLOSED: [2019-02-04 pon 14:08]
 At least ~snippet~ parameter.
-***** TODO [[*id][id]]
-*** WAITING JSON parsing [3/5]
+***** DONE [[*id][id]]
+CLOSED: [2019-02-04 pon 14:08]
+*** IN-PROGRESS JSON parsing [3/4]
 **** DONE Modify Response class to parse server response to rapidjson::Document
 CLOSED: [2018-11-30 pią 16:10]
 **** DONE Create a way to extract videos as Video objects from Response
@@ -92,16 +99,22 @@ Response::GetVideos() or something like that
 CLOSED: [2018-12-01 sob 00:08]
 libcurl doesn't escape spaces in an url, it can be done by using curl_easy_escape(), but it requires CURL handle
 [[file:BaseOperation.cpp:://%20FIXME:%20every%20parameter%20value%20should%20be%20escaped][Here]]
-**** TODO Get ids from received video list and create request for those videos to get titles and descriptions
+**** IN-PROGRESS Get ids from received video list and create request for those videos to get titles and descriptions
 SearchOperation returns a list of items that can be of different type like channel, playlist or video. We could show only results that have id->videoId parameter (channel would have only channelId).
 Or we could use ~type=video~ parameter by default when invoking SearchOperation.
 
 If video description is long, SearchOperation will return only part of it, so we could call VideosOperation if ~description~ parameter ends with "..." or make it an option to show the entire description.
 Thumbnail list is also longer in VideosOperation.
+***** IN-PROGRESS Create a constructor for VideoOperation that takes a vector of Videos (or SearchResponse) as an argument
+For every video it should add all absent details (thumbnails, description, tags, category_id).
+***** TODO If there is no DescriptionShortened, create it from the Description
+Limit is 164 characters (but if the word must be cut in half, it is cut entirely) + " ..."
+
+164 chars (with space and dots 168)
 ** TODO Errors
-If search parameters are wrong, YouTube API will respond wit errors, which should be handled because for now, if that occurs, program will just throw or segmentation fault or assertion will fail (when in debug mode).
+If search parameters are wrong, YouTube API will respond with errors, which should be handled, because for now, if that occurs, program will just throw or segmentation fault or assertion will fail (when in debug mode).
 ** TODO Operations
-*** TODO SearchOperation [0/3]
+*** TODO SearchOperation [0/2]
 [[https://developers.google.com/youtube/v3/docs/search/list][API Reference]]
 
 NOTE: some of the functions would have exactly the same code with different variable names. They should be using a common function.
@@ -148,7 +161,7 @@ CLOSED: [2019-02-02 sob 12:18]
 CLOSED: [2019-02-02 sob 12:18]
 ***** DONE topicId
 CLOSED: [2019-02-02 sob 12:18]
-***** DONE type [1/3]
+***** DONE type
 CLOSED: [2019-02-02 sob 12:20]
 ****** DONE Basic functionality
 CLOSED: [2019-02-01 pią 12:50]
@@ -183,7 +196,7 @@ CLOSED: [2019-02-02 sob 12:19]
 ***** TODO pageInfo.resultsPerPage
 ***** TODO items[]
 *** TODO VideosOperation
-**** TODO Parameters [0%]
+**** TODO Parameters [8%]
 ***** TODO part
 ****** TODO contentDetails
 ****** TODO fileDetails
@@ -193,13 +206,15 @@ CLOSED: [2019-02-02 sob 12:19]
 ****** TODO player
 ****** TODO processingDetails
 ****** TODO recordingDetails
-****** TODO snippet
+****** DONE snippet
+CLOSED: [2019-02-04 pon 15:11]
 ****** TODO statistics
 ****** TODO status
 ****** TODO suggestions
 ****** TODO topicDetails
 ***** TODO chart
-***** TODO id
+***** DONE id
+CLOSED: [2019-02-04 pon 15:11]
 ***** TODO myRating
 ***** TODO hl
 ***** TODO maxHeight

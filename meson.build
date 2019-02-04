@@ -22,8 +22,10 @@ sources = ['main.cpp',
 	   'Config.cpp',
 	   'CURLcontext.cpp',
 	   'SearchResponse.cpp',
+	   'VideosResponse.cpp',
 	   'Operation.cpp',
-	   'SearchOperation.cpp']
+	   'SearchOperation.cpp',
+	   'VideosOperation.cpp']
 
 incl = include_directories('.')
 
