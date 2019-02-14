@@ -30,7 +30,7 @@ Every Operation class will have to call CURLcontext::Get() with a type that it w
 
 Operations should return Responses of a specific type. We want to be explicit for the sake of Scheme integration. /(Is that so?)/
 
-SearchOperation has Type() method that takes SearchType enum arg. It can be VIDEO, PLAYLIST, CHANNEL or ALL. For now, it isn't capable of taking a mix of those, but maybe in the future it could be a bit mask.
+SearchOperation has Type() method that takes SearchType enum arg. It can be: ~VIDEO~, ~PLAYLIST~, ~CHANNEL~ or ~ALL~. Also mix of values is allowed (i.e. ~VIDEO | PLAYLIST~).
 
 Parameters for the Operation can be set in any order and there is no check if the request is correct. Sometimes there are parameters that are incompatible with others, but the request will be sent as it is. If the request is incorrect, Google's server will send an error in the response.
 *Errors are not supported yet, so the assertions in Reponse methods will not be met.* This is TODO.
@@ -46,7 +46,7 @@ yt search --order date --max-results 10 "foo"
 
 Some operations require authentication so we could have a daemon running a session for that.
 
-Maybe use Guile also for the CLI? [[https://www.gnu.org/software/guile/manual/html_node/Command-Line-Handling.html][Link to manual]]
+Maybe use Guile also for the CLI? [[info:guile#Command%20Line%20Handling][Link to manual]]
 
 ** TUI (Guile)
 There are [[https://www.gnu.org/software/guile-ncurses/][ncurses bindings for guile]], so the whole TUI (text-based user interface) could be written in it.
@@ -113,13 +113,14 @@ Limit is 164 characters (but if the word must be cut in half, it is cut entirely
 164 chars (with space and dots 168)
 ** TODO Errors
 If search parameters are wrong, YouTube API will respond with errors, which should be handled, because for now, if that occurs, program will just throw or segmentation fault or assertion will fail (when in debug mode).
-** TODO Operations
-*** TODO SearchOperation [0/2]
+** IN-PROGRESS Operations
+*** IN-PROGRESS SearchOperation [1/2]
 [[https://developers.google.com/youtube/v3/docs/search/list][API Reference]]
 
 NOTE: some of the functions would have exactly the same code with different variable names. They should be using a common function.
 (Example: ChannelId just adds the given variable value to a query)
-**** TODO Parameters [64%]
+**** DONE Parameters [100%]
+CLOSED: [2019-02-14 czw 14:09]
 Some parameters are not compatible with others. For instance ~relatedToVideoId~ parameter works only if ~type~ parameter is set to video.
 Note that parameters can be set in any order so checking if some other parameter is set while setting another is not sufficient.
 Either there won't be a check for anything and the request will be just send as it is, or the system is developed for checking correctness of the request while Perform() is executing.
@@ -167,21 +168,30 @@ CLOSED: [2019-02-02 sob 12:20]
 CLOSED: [2019-02-01 pią 12:50]
 By default type=video
 The default type is set in a constructor.
-
-For now only one or all types can be set at the same time.
 ***** DONE videoCategoryId
 CLOSED: [2019-02-02 sob 12:19]
-***** TODO channelType
-***** TODO order
-***** TODO safeSearch
-***** TODO videoCaption
-***** TODO videoDefinition
-***** TODO videoDimension
-***** TODO videoDuration
-***** TODO videoEmbeddable
-***** TODO videoLicense
-***** TODO videoSyndicated
-***** TODO videoType
+***** DONE channelType
+CLOSED: [2019-02-14 czw 14:08]
+***** DONE order
+CLOSED: [2019-02-14 czw 14:08]
+***** DONE safeSearch
+CLOSED: [2019-02-14 czw 14:08]
+***** DONE videoCaption
+CLOSED: [2019-02-14 czw 14:09]
+***** DONE videoDefinition
+CLOSED: [2019-02-14 czw 14:09]
+***** DONE videoDimension
+CLOSED: [2019-02-14 czw 14:09]
+***** DONE videoDuration
+CLOSED: [2019-02-14 czw 14:09]
+***** DONE videoEmbeddable
+CLOSED: [2019-02-14 czw 14:09]
+***** DONE videoLicense
+CLOSED: [2019-02-14 czw 14:09]
+***** DONE videoSyndicated
+CLOSED: [2019-02-14 czw 14:09]
+***** DONE videoType
+CLOSED: [2019-02-14 czw 14:09]
 **** TODO Response [0%]
 ***** IN-PROGRESS Create Playlists() and Channels() methods.
 ****** TODO Create Playlist class

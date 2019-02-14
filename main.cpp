@@ -53,7 +53,9 @@ int main(int argc, char** argv) {
   // tm.tm_mday = 1;
   // std::time_t time = std::mktime(&tm);
   std::unique_ptr<yt::SearchResponse> sr =
-    yt::Search(argv[1]).MaxResults(5).Perform();
+      yt::Search(argv[1]).MaxResults(5)
+      .Type(yt::SearchOperation::SearchType::VIDEO)
+      .Perform();
 
   std::cout << sr->Uri() << '\n';
   for (auto &video : sr->Videos()) {
