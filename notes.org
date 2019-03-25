@@ -57,14 +57,6 @@ There are [[https://www.gnu.org/software/guile-ncurses/][ncurses bindings for gu
 (yt-search "foo" :order 'date :max-results 10)
 
 * TO DO
-** DONE Refactor Video class [2/2]
-CLOSED: [2019-02-01 pią 21:11]
-*** DONE Setters for Video class
-CLOSED: [2019-02-01 pią 14:58]
-Maybe it would be better to create setters for Video class' data members so it would be possibile to add additional information about a video. That would eliminate that awful constructor with million arguments.
-/Maybe create only rvalue setters?/
-*** DONE Convert the date in publishedAt to be human-readable
-CLOSED: [2019-02-01 pią 21:11]
 ** IN-PROGRESS Working, basic search for YouTube [3/4]
 *** DONE Video class
 CLOSED: [2018-11-29 czw 21:15]
@@ -245,3 +237,5 @@ CLOSED: [2019-02-04 pon 15:11]
 ***** TODO items[]
 ** TODO Documentation
 For Backend/API look at the [[*Backend/API (C++)][Backend/API (C++)]] notes and the commit message from [[elisp:(magit-show-commit "5e5851625d78abc58154c551ccc75c9c470e1f20")][this commit]].
+*** TODO Operation class
+There should be an extensive description on how to create Operation classes and how should they work.
