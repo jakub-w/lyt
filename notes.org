@@ -1,4 +1,18 @@
 * Notes
+[[https://developers.google.com/youtube/v3/docs/search/list][YouTube API documentation]]
+** Request examples
+NOTE: ~<KEY>~ in both examples need to be replaced by an api key.
+
+#+CAPTION: Example of a successful request
+#+BEGIN_EXAMPLE
+https://www.googleapis.com/youtube/v3/videos?key=<KEY>&part=snippet&id=8uKiV2ZEH6s
+#+END_EXAMPLE
+
+#+CAPTION: Example of an erroneous request
+#+BEGIN_EXAMPLE
+https://www.googleapis.com/youtube/v3/search?key=<KEY>&part=snippet&q=northernlion&maxResults=1&videoDuration=long
+#+END_EXAMPLE
+
 ** Backend/API (C++)
 auto query = yt.Search("foo");
 query = yt.Search("foo").Order(yt::DATE_ORDER).MaxResults(10);
@@ -244,3 +258,7 @@ There should be an extensive description on how to create Operation classes and 
 *** TODO Probably make command line arguments parsing more generic
 Meaning that every argument should have it's own function and getting value for a specific option should be abstracted away.
 This would get rid of copy-paste bits.
+** TODO Rename config.txt and search for it in XDG_CONFIG_HOME
+Rename to ~lyt.conf~.
+XDG_CONFIG_HOME is optional so if it's not there search for config in $HOME/.config
+Its location is hardcoded in [[file:Config.cpp::const%20std::string%20Config::conf_file%20=%20"config.txt";][Config.cpp]]
